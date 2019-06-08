@@ -86,7 +86,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	  float rho_dot = measurement_pack.raw_measurements_[2]; // velocity of rho
 	  
 	  phi = check_angle_range(phi);
-	  std::cout<<"phi verified: " << phi << std::endl;
+	  std::cout<<"phi verified[-pi to +pi]: " << phi << std::endl;
 
 	  // Coordinates convertion from polar to cartesian
 	  float x = rho * cos(phi); 

@@ -59,10 +59,10 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 
 
   // Deal with the special case problems
-  if (fabs(px) < EPS and fabs(py) < EPS){
-	  px = EPS;
-	  py = EPS;
-  }
+  // if (fabs(px) < EPS and fabs(py) < EPS){
+	  // px = EPS;
+	  // py = EPS;
+  // }
 
   // Pre-compute a set of terms to avoid repeated calculation
 
@@ -74,6 +74,10 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 
   float c2 = sqrt(c1);
   float c3 = (c1*c2);
+  if (c1 == 0.0) ||(c2==0.0)||(c3==0.0)
+  {
+	  std::cout<<"Tools::CalculateJacobian - Error - Divison through null! please check!"
+  }
 
   // Compute the Jacobian matrix
 

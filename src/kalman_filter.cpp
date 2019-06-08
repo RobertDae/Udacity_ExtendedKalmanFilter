@@ -54,12 +54,9 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   h << rho, theta, rho_dot;
 
-  
-
   VectorXd y = z - h;
 
   // Calculations are essentially the same to the Update function
-
   KF(y);
 }
 
