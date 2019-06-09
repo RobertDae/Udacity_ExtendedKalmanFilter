@@ -74,9 +74,9 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 
   float c2 = sqrt(c1);
   float c3 = (c1*c2);
-  if (c1 == 0.0) ||(c2==0.0)||(c3==0.0)
+  if ((c1 == 0.0) ||(c2==0.0)||(c3==0.0))
   {
-	  std::cout<<"Tools::CalculateJacobian - Error - Divison through null! please check!"
+	  std::cout<<"Tools::CalculateJacobian - Error - Divison through null! please check!"<<std::endl;
   }
 
   // Compute the Jacobian matrix
