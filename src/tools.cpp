@@ -1,7 +1,7 @@
 #include "tools.h"
 #include <iostream>
 
-#define EPS 0.0001  // 10 zu schlecht, 7 war gut
+#define EPS 0.00001  // 10 zu schlecht, 7 war gut
 #define EPS2 0.00001 //was 0.0000001
 
 using Eigen::VectorXd;
@@ -25,7 +25,6 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 	{
 		std::cout << "calculateRMSE() - Error: - estimation vector is size zero or not equal to ground truth!" << std::endl;
 		return rmse;
-
 	}
 
 	for (int i = 0; i < estimations.size(); ++i)
@@ -57,7 +56,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 	// TODO: YOUR CODE HERE 
 	//pre-compute a set of terms to avoid repeated calculation
 	// Code from lectures quizes
-    
+  //check of px and py for not beeing to small    
   if (fabs(px) < EPS and fabs(py) < EPS)
   {
 	  px = EPS;
@@ -65,11 +64,9 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   }
 
   // Pre-compute a set of terms to avoid repeated calculation
-
   float c1 = px*px+py*py;
-
+  
   // Check division by zero
-
   if(fabs(c1) < EPS2)
   {
 	c1 = EPS2;
