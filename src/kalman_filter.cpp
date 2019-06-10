@@ -1,4 +1,5 @@
  #include "kalman_filter.h"
+ #include <math.h>
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -52,9 +53,29 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   VectorXd h = VectorXd(3); // this is h(x_)
 
+  //safety check for the angle!
+  // if (theta< -M_PI)
+  // {
+	  // theta+=2.0*M_PI;
+  // }
+  // if (theta> M_PI)
+  // {
+	  // theta-=2.0*M_PI;
+  // }
+
   h << rho, theta, rho_dot;
 
   VectorXd y = z - h;
+  
+  //safety check for the angle
+  if (y(1)< -M_PI)
+  {
+	  y(1)+=2.0*M_PI;
+  }
+  if (y(1)> M_PI)
+  {
+	  y(1)-=2.0*M_PI;
+  }
 
   // Calculations are essentially the same to the Update function
   KF(y);
