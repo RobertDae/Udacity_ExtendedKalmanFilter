@@ -1,8 +1,8 @@
 #include "tools.h"
 #include <iostream>
 
-#define EPS 0.0001 // A very small number
-#define EPS2 0.0000001
+#define EPS 0.0001  // 10 zu schlecht, 7 war gut
+#define EPS2 0.00001 //was 0.0000001
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
@@ -36,7 +36,8 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 	}
 	rmse = rmse.array() / estimations.size();
 	rmse = rmse.array().sqrt();
-	std::cout << "RMSE: " <<std::endl<< rmse << std::endl;
+	
+    std::cout << "RMSE: " <<std::endl<< rmse << std::endl;
 	return rmse;
 
 }
@@ -56,33 +57,31 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
 	// TODO: YOUR CODE HERE 
 	//pre-compute a set of terms to avoid repeated calculation
 	// Code from lectures quizes
-
-
-  // Deal with the special case problems
-  // if (fabs(px) < EPS and fabs(py) < EPS){
-	  // px = EPS;
-	  // py = EPS;
-  // }
+    
+  if (fabs(px) < EPS and fabs(py) < EPS)
+  {
+	  px = EPS;
+	  py = EPS;
+  }
 
   // Pre-compute a set of terms to avoid repeated calculation
 
   float c1 = px*px+py*py;
+
   // Check division by zero
-  if(fabs(c1) < EPS2){
+
+  if(fabs(c1) < EPS2)
+  {
 	c1 = EPS2;
   }
-
   float c2 = sqrt(c1);
   float c3 = (c1*c2);
-  if ((c1 == 0.0) ||(c2==0.0)||(c3==0.0))
-  {
-	  std::cout<<"Tools::CalculateJacobian - Error - Divison through null! please check!"<<std::endl;
-  }
 
-  // Compute the Jacobian matrix
 
-  Hj << (px/c2), (py/c2), 0, 0,
-       -(py/c1), (px/c1), 0, 0,
-        py*(vx*py - vy*px)/c3, px*(px*vy - py*vx)/c3, px/c2, py/c2;
+   //compute the Jacobian matrix
+   Hj <<  (px/c2),                   (py/c2),                0,      0,
+         -(py/c1),                   (px/c1),                0,      0, 
+        py*(vx*py - vy*px)/c3,  px*(px*vy - py*vx)/c3,  px/c2,  py/c2;
   return Hj;
+
 }

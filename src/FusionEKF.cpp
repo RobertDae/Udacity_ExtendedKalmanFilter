@@ -4,7 +4,7 @@
 #include "Eigen/Dense"
 #include "tools.h"
 
-#define EPS 0.0001 
+#define EPS 0.0001 //was 0.0001
 
 
 using Eigen::MatrixXd;
@@ -85,8 +85,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	  float phi = measurement_pack.raw_measurements_[1]; // bearing
 	  float rho_dot = measurement_pack.raw_measurements_[2]; // velocity of rho
 	  
-	  phi = check_angle_range(phi);
-	  std::cout<<"phi verified[-pi to +pi]: " << phi << std::endl;
+	  //phi = check_angle_range(phi);
+	  //std::cout<<"phi verified[-pi to +pi]: " << phi << std::endl;
 
 	  // Coordinates convertion from polar to cartesian
 	  float x = rho * cos(phi); 
@@ -206,8 +206,9 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   }
 
   // print the output
-  cout << "H_ ="<<std::endl << ekf_.H_<<std::endl;
-  //cout << "R_ ="<<std::endl << ekf_.R_<<std::endl;
-  cout << "x_ = " <<std::endl << ekf_.x_ << endl;
-  cout << "P_ = " <<std::endl << ekf_.P_ << endl;
+  std::cout<<"Additional Informations:"<<std::endl;
+  std::cout << "H_ ="<<std::endl << ekf_.H_<<std::endl;
+  
+  std::cout << "x_ = " <<std::endl << ekf_.x_ << std::endl;
+  std::cout << "P_ = " <<std::endl << ekf_.P_ << std::endl;
 }
