@@ -1,8 +1,7 @@
 #include "tools.h"
 #include <iostream>
 
-#define EPS 0.3  // 10 zu schlecht, 7 war gut
-#define EPS2 0.00001 //was 0.0000001
+#define EPS 0.0001  // 10 zu schlecht, 7 war gut start 0.0001
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
@@ -58,14 +57,24 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state)
 	//pre-compute a set of terms to avoid repeated calculation
 	// Code from lectures quizes
 	
-   //check of px and py for not beeing to small    
-   if (fabs(px) < EPS) 
+   //check of px and py for not beeing to small
+   
+   if (px < EPS) 
    {
 	  px = EPS;
    }
-   if (fabs(py) < EPS)
+   if (px>-EPS and px <0)
+   {
+	   px=-EPS;
+   }
+   
+   if (py < EPS)
    {   
 	  py = EPS;
+   }
+   if (py > -EPS and px<0)
+   {   
+	  py = -EPS;
    }
 
    // Pre-compute a set of terms to avoid repeated calculation
