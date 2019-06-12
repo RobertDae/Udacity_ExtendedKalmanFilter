@@ -1,8 +1,8 @@
 #include "tools.h"
 #include <iostream>
 
-#define EPS 0.01  // 10 zu schlecht, 7 war gut start 0.0001
-#define EPS2 0.0001
+#define EPS 7.0  // 10 zu schlecht, 7 war gut start 0.0001
+//#define EPS2 0.0001
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
@@ -41,6 +41,12 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 
 }
 
+float signnum_f(float x) {
+  if (x > 0.0) return 1.0;
+  if (x < 0.0) return -1.0;
+  return x;
+}
+
 MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) 
 {
   /**
@@ -59,28 +65,12 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state)
 	// Code from lectures quizes
 	
    //check of px and py for not beeing to small to prevent a division by zero for c1
-   if (fabs(px) < EPS ) 
+   if ((fabs(px) < EPS ) and (fabs(py)< EPS)) 
    {
-	  px = EPS;
+	  px = EPS*signnum_f(px);
+	  py = EPS*signnum_f(py);
    }
    
-   if (fabs(py) <EPS)
-   {
-	   	  py = EPS;
-   }
-   // if (px>-EPS and px <0)
-   // {
-	   // px=-EPS;
-   // }
-   // {   
-   // if (py < EPS)
-   // {
-	  // py = EPS;
-   // }
-   // if (py > -EPS and px<0)
-   // {   
-	  // py = -EPS;
-   // }
 
    // Pre-compute a set of terms to avoid repeated calculation
    float c1 = px*px+py*py;
