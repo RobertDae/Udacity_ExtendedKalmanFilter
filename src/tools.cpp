@@ -1,8 +1,8 @@
 #include "tools.h"
 #include <iostream>
 
-#define EPS 7.0  // 10 zu schlecht, 7 war gut start 0.0001
-//#define EPS2 0.0001
+#define EPS 2.0  // 10 zu schlecht, 7 war gut start 0.0001
+#define EPS2 0.0001
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
@@ -71,9 +71,13 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state)
 	  py = EPS*signnum_f(py);
    }
    
-
    // Pre-compute a set of terms to avoid repeated calculation
    float c1 = px*px+py*py;
+   if (c1 < EPS2)
+   {
+	   std::cout<< "CalculateJacobian - Error: Division by Zero! c1 too small." <<std::endl;
+	   return Hj;
+	}
    float c2 = sqrt(c1);
    float c3 = (c1*c2);
 
