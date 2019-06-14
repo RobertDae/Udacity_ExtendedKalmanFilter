@@ -105,12 +105,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 	  float y = measurement_pack.raw_measurements_[1];
       ekf_.x_ << x, y, 0, 0;
     }
-	
-	if (fabs(ekf_.x_(0)) < EPS and fabs(ekf_.x_(1)) < EPS)
-	{
-		ekf_.x_(0) = EPS;
-		ekf_.x_(1) = EPS;
-	}
 
     // Initial covariance matrix
     ekf_.P_ = MatrixXd(4, 4);

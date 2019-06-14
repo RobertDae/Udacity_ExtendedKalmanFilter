@@ -70,6 +70,11 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state)
 	  px = EPS*signnum_f(px);
 	  py = EPS*signnum_f(py);
    }
+   if (py==0.0 and px==0.0)
+   {
+	   px=EPS;
+	   py=EPS;
+   }
    
    // Pre-compute a set of terms to avoid repeated calculation
    float c1 = px*px+py*py;
